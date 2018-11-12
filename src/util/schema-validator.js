@@ -6,6 +6,7 @@ export function validate(schema: Object, body: mixed) {
   const validator = ajv({
     allErrors: true,
     v5: true,
+    $data: true,
   })
 
   keywordSwitch(validator)
