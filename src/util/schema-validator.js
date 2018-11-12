@@ -1,16 +1,20 @@
 /* @flow */
 import ajv from "ajv"
 import keywordSwitch from "ajv-keywords/keywords/switch"
+import keywordSelect from "ajv-keywords/keywords/select"
 
 export function validate(schema: Object, body: mixed) {
   const validator = ajv({
     allErrors: true,
     v5: true,
+    $data: true,
   })
 
   keywordSwitch(validator)
+  keywordSelect(validator)
 
-  if (validator.validate(schema, body)) return []
+  const validate = validator.compile(schema)
+  if (validate(body)) return []
 
   const grouped = new Map
   for (const error of validator.errors) {
