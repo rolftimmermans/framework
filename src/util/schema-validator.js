@@ -13,7 +13,8 @@ export function validate(schema: Object, body: mixed) {
   keywordSwitch(validator)
   keywordSelect(validator)
 
-  if (validator.validate(schema, body)) return []
+  const validate = validator.compile(schema)
+  if (validate(body)) return []
 
   const grouped = new Map
   for (const error of validator.errors) {
